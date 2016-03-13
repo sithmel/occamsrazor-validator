@@ -1,5 +1,7 @@
 occamsrazor-validator
 =====================
+[![Build Status](https://travis-ci.org/sithmel/occamsrazor-validator.svg?branch=master)](https://travis-ci.org/sithmel/occamsrazor-validator)
+
 This is an helper library that helps to perform variable validation with a simple syntax.
 The main goal of the library is to be used for duck-typing. For this reason:
 
