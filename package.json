@@ -1,5 +1,5 @@
 {
-  "name": "occamsrazor-validators",
+  "name": "occamsrazor-validator",
   "version": "5.0.0",
   "description": "A duck-typing library",
   "main": "index.js",
