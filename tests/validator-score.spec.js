@@ -48,31 +48,31 @@ describe('validator score', function () {
   });
 
   it('must pass generic validation', function () {
-    assert.equal(is_anything(instrument), 1);
-    assert.equal(is_anything(drum), 1);
-    assert.equal(is_anything(guitar), 1);
-    assert.equal(is_anything(electricguitar), 1);
+    assert.equal(is_anything(instrument).value(), 1);
+    assert.equal(is_anything(drum).value(), 1);
+    assert.equal(is_anything(guitar).value(), 1);
+    assert.equal(is_anything(electricguitar).value(), 1);
   });
 
   it('must sometimes pass validation (1 check)', function () {
-    assert.equal(is_instrument(instrument), 2);
-    assert.equal(is_instrument(drum), 2);
-    assert.equal(is_instrument(guitar), 2);
-    assert.equal(is_instrument(electricguitar), 2);
+    assert.equal(is_instrument(instrument).value(), 2);
+    assert.equal(is_instrument(drum).value(), 2);
+    assert.equal(is_instrument(guitar).value(), 2);
+    assert.equal(is_instrument(electricguitar).value(), 2);
   });
 
   it('must sometimes pass validation (2 checks)', function () {
     assert.isNull(is_guitar(instrument));
     assert.isNull(is_guitar(drum));
-    assert.equal(is_guitar(guitar), 3);
-    assert.equal(is_guitar(electricguitar), 3);
+    assert.equal(is_guitar(guitar).value(), 3);
+    assert.equal(is_guitar(electricguitar).value(), 3);
   });
 
   it('must sometimes pass validation (3 checks)', function () {
     assert.isNull(is_electricguitar(instrument));
     assert.isNull(is_electricguitar(drum));
     assert.isNull(is_electricguitar(guitar));
-    assert.equal(is_electricguitar(electricguitar), 4);
+    assert.equal(is_electricguitar(electricguitar).value(), 4);
   });
 
   describe('important', function () {
@@ -87,7 +87,7 @@ describe('validator score', function () {
     });
 
     it('must not match using important', function () {
-      assert.equal(is_guitar_important(guitar), 67);
+      assert.equal(is_guitar_important(guitar).value(), 67);
     });
 
     it('must match using important', function () {

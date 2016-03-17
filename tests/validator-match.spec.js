@@ -3,15 +3,21 @@ var validator = require('..');
 
 describe('validator match', function () {
 
+  it('must match using undefined', function () {
+    var is_anything = validator().match(undefined);
+    assert.equal(is_anything('hello').value(), 2);
+    assert.equal(is_anything('nothello').value(), 2);
+  });
+
   it('must match using a string', function () {
     var is_hello = validator().match('hello');
-    assert.equal(is_hello('hello'), 2);
+    assert.equal(is_hello('hello').value(), 2);
     assert.isNull(is_hello('nothello'));
   });
 
   it('must match using a regexp', function () {
     var is_hello = validator().match(/hello/);
-    assert.equal(is_hello('hello world'), 2);
+    assert.equal(is_hello('hello world').value(), 2);
     assert.isNull(is_hello('good morning world'));
   });
 
@@ -31,8 +37,8 @@ describe('validator match', function () {
     });
 
     it('must match', function () {
-      assert.equal(hasWidth({width: 1, height: 2}), 2);
-      assert.equal(hasHeight_hasWidth({width: 1, height: 2}), 2);
+      assert.equal(hasWidth({width: 1, height: 2}).value(), 2);
+      assert.equal(hasHeight_hasWidth({width: 1, height: 2}).value(), 2);
     });
   });
 
@@ -55,8 +61,8 @@ describe('validator match', function () {
     });
 
     it('must match', function () {
-      assert.equal(hasWidth10({width: "10"}), 2);
-      assert.equal(hasX10({center: {x:"10", y:"1"}}), 2);
+      assert.equal(hasWidth10({width: "10"}).value(), 2);
+      assert.equal(hasX10({center: {x:"10", y:"1"}}).value(), 2);
     });
 
     it('must not match', function () {
@@ -85,10 +91,10 @@ describe('validator match', function () {
     });
 
     it('must match', function () {
-      assert.equal(hasWidthbetween5and10({width: 8}), 2);
+      assert.equal(hasWidthbetween5and10({width: 8}).value(), 2);
 
-      assert.equal(isNotANumber(NaN), 2);
-      assert.equal(isArray([1, 2, 3]), 2);
+      assert.equal(isNotANumber(NaN).value(), 2);
+      assert.equal(isArray([1, 2, 3]).value(), 2);
     });
 
     it('must not match', function () {
@@ -105,6 +111,10 @@ describe('validator match', function () {
     before(function () {
       isAnything = validator();
       hasWidthAndHeight = isAnything.match(['width', 'height']);
+      hasWidthAsSecondField = isAnything.match([undefined, 'width']);
+      hasSecondNumberOdd = isAnything.match([undefined, function (n) {
+        return n % 2;
+      }]);
     });
 
     it('must set score correctly', function () {
@@ -112,12 +122,23 @@ describe('validator match', function () {
     });
 
     it('must match', function () {
-      assert.equal(hasWidthAndHeight({width: 8, height: 10}), 2);
+      assert.equal(hasWidthAndHeight(['width', 'height']).value(), 2);
     });
 
     it('must not match', function () {
-      assert.isNull(hasWidthAndHeight({width: 12}));
+      assert.isNull(hasWidthAndHeight(['width']));
     });
+
+    it('must match only second item', function (){
+      assert.equal(hasWidthAsSecondField(['xxx', 'width']).value(), 2);
+      assert.isNull(hasWidthAsSecondField(['width']));
+    });
+
+    it('must match only second item with function', function (){
+      assert.equal(hasSecondNumberOdd(['xxx', 3]).value(), 2);
+      assert.isNull(hasSecondNumberOdd(['xxx', 2]));
+    });
+
   });
 
   describe('single/multiple match using null', function () {
@@ -133,7 +154,7 @@ describe('validator match', function () {
     });
 
     it('must match', function () {
-      assert.equal(isNull(null), 2);
+      assert.equal(isNull(null).value(), 2);
     });
 
     it('must not match', function () {
@@ -156,8 +177,8 @@ describe('validator match', function () {
     });
 
     it('must match', function () {
-      assert.equal(isTrue(true), 2);
-      assert.equal(isFalse(false), 2);
+      assert.equal(isTrue(true).value(), 2);
+      assert.equal(isFalse(false).value(), 2);
     });
 
     it('must not match', function () {

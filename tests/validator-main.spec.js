@@ -15,4 +15,8 @@ describe('validator main', function () {
   it('must have the right name', function () {
     assert.equal(is_hello.name, "validator");
   });
+
+  it('must be clear that is a validator', function () {
+    assert(typeof is_hello === 'function' && 'score' in is_hello);
+  });
 });
