@@ -124,5 +124,6 @@ var validator = function (){
 };
 
 validator.shortcut_validators = shortcut_validators;
+validator.combine = combineValidators;
 
 module.exports = validator;
