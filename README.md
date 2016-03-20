@@ -163,11 +163,12 @@ When the value returned is an array it is compared in this way (alphabetically):
 
 Sort and compare results
 ------------------------
-The result validator object has an useful property. It can be sorted and compared as it was a basic js type.
+The result validator object has an useful property. It can be sorted and compared (greater than, lesser than) as it was a basic js type. You can use the output of the toString attribute to compare for equality:
 ```js
 r0 > r1
 var results = [r0, r1, r2, r3];
 r.sort();
+r0.toString() === r1.toString()
 ```
 
 Syntax

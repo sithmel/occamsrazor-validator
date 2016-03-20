@@ -74,4 +74,13 @@ describe('validation-result array', function () {
     var a = items.map(function (v) {return v.toString();});
     assert.deepEqual(a, ['BCD', 'H', 'IB', 'IC'])
   });
+
+  it('must compare by value', function () {
+    var a = new ValidationResult([1, 2]);
+    var b = new ValidationResult([1, 2]);
+    var c = new ValidationResult([1, 3]);
+    assert(a.toString() === b.toString());
+    assert(a.toString() !== c.toString());
+  });
+
 });
