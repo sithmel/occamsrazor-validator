@@ -2,12 +2,14 @@ occamsrazor-validator
 =====================
 [![Build Status](https://travis-ci.org/sithmel/occamsrazor-validator.svg?branch=master)](https://travis-ci.org/sithmel/occamsrazor-validator)
 
-The main goal of the library is to be used for duck-typing. It contains a validator object that allows to easily check any aspect of an object/value. It is not a schema validator library. For this reason:
+This is a validator library with a very specific goal. Identify if a value matches some criteria using (duck typing)[https://en.wikipedia.org/wiki/Duck_typing] and assigning a score to the match.
 
-* It detects what an object is rather than what it is not
+Given the goal it is not a full fledged schema validator library. For this reason:
+
+* It identifies what an object "has" rather than what it "is"
 * An object passing the validation returns a "validationResult". This object has a value, based on how many validation steps has passed.
 
-It is a part of occamsrazor (https://github.com/sithmel/occamsrazor.js) that uses this library for picking the right adapter for a specific set of arguments.
+It is a part of occamsrazor (https://github.com/sithmel/occamsrazor.js) that uses this library for picking the right function for a specific set of arguments.
 
 Importing the library
 =====================
@@ -36,13 +38,7 @@ var hasWheels = isAnything.match(function (obj){
     return 'wheels' in obj;
 });
 ```
-or
-```js
-var hasWheels = validator().match(function (obj){
-    return 'wheels' in obj;
-});
-```
-So for example, the score of this new validator will be 2::
+So for example, the score of this new validator will be 2:
 ```js
 hasWheels({wheels: 4}).value(); // 2
 hasWheels({feet: 2});           // returns null
@@ -86,7 +82,7 @@ var contains_nuts = validator().match(/nut/);
 is_hello('hello');
 contains_nuts('hazelnut');
 ```
-Or numbers::
+Or numbers:
 ```js
 var is_ten = validator().match(10);
 is_ten(10);
@@ -96,7 +92,7 @@ If you pass an array it will match with any element of an input array with its c
 ```js
 var has_1_2 = validator().match([1, 2]);
 ```
-Finally you can perform deep property checking using an object and combining the previous checks::
+Finally you can perform deep property checking using an object and combining the previous checks:
 ```js
 // match with width and height equal to 10
 var has_width_and_height_10 = validator().match({width: 10, height: 10});
@@ -185,7 +181,7 @@ validator();
 Returns a generic validator. It will validate every object with score 1.
 
 validator().score
------------------------------
+-----------------
 
 Syntax:
 ```js
@@ -194,7 +190,7 @@ a_validator.score();
 Returns the score returned by this validator. It can be useful for debugging or introspection.
 
 validator().important
----------------------------------
+---------------------
 
 Syntax:
 ```js
@@ -203,7 +199,7 @@ a_validator.important([n]);
 It bumps the score by n (default to 64).
 
 validator().match
------------------------------
+-----------------
 
 Add a check to the validator, using an expressive syntax.
 
@@ -252,7 +248,7 @@ var hasCenter5or10 = validator().match({center: {x : function (c){
 ```
 
 validator().isPrototypeOf
--------------------------------------
+-------------------------
 Check if an object is a prototype of another.
 
 Syntax:
@@ -261,7 +257,7 @@ var validator = validator().isPrototypeOf(obj);
 ```
 
 validator().instanceOf
--------------------------------------
+----------------------
 Check if an object is an instance of a constructor.
 
 Syntax:
@@ -270,7 +266,7 @@ var validator = validator().instanceOf(ContructorFunc);
 ```
 
 validator().has
--------------------------------------
+---------------
 Check if an object has attributes with a specific names.
 
 Syntax:
