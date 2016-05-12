@@ -5,19 +5,19 @@ describe('validator match', function () {
 
   it('must match using undefined', function () {
     var is_anything = validator().match(undefined);
-    assert.equal(is_anything('hello').value(), 2);
-    assert.equal(is_anything('nothello').value(), 2);
+    assert.equal(is_anything('hello').value(), 1);
+    assert.equal(is_anything('nothello').value(), 1);
   });
 
   it('must match using a string', function () {
     var is_hello = validator().match('hello');
-    assert.equal(is_hello('hello').value(), 2);
+    assert.equal(is_hello('hello').value(), 1);
     assert.isNull(is_hello('nothello'));
   });
 
   it('must match using a regexp', function () {
     var is_hello = validator().match(/hello/);
-    assert.equal(is_hello('hello world').value(), 2);
+    assert.equal(is_hello('hello world').value(), 1);
     assert.isNull(is_hello('good morning world'));
   });
 
@@ -31,14 +31,14 @@ describe('validator match', function () {
     });
 
     it('must set score correctly', function () {
-      assert.equal(isAnything.score(), 1);
-      assert.equal(hasWidth.score(), 2);
-      assert.equal(hasHeight_hasWidth.score(), 2);
+      assert.equal(isAnything.score(), 0);
+      assert.equal(hasWidth.score(), 1);
+      assert.equal(hasHeight_hasWidth.score(), 1);
     });
 
     it('must match', function () {
-      assert.equal(hasWidth({width: 1, height: 2}).value(), 2);
-      assert.equal(hasHeight_hasWidth({width: 1, height: 2}).value(), 2);
+      assert.equal(hasWidth({width: 1, height: 2}).value(), 1);
+      assert.equal(hasHeight_hasWidth({width: 1, height: 2}).value(), 1);
     });
   });
 
@@ -50,26 +50,26 @@ describe('validator match', function () {
       hasWidth10 = isAnything.match({'width': '10'});
       hasX10 = isAnything.match({
         center: {
-          x: "10", y: undefined
+          x: '10', y: undefined
         }
       });
     });
 
     it('must set score correctly', function () {
-      assert.equal(hasWidth10.score(), 2);
-      assert.equal(hasX10.score(), 2);
+      assert.equal(hasWidth10.score(), 1);
+      assert.equal(hasX10.score(), 1);
     });
 
     it('must match', function () {
-      assert.equal(hasWidth10({width: "10"}).value(), 2);
-      assert.equal(hasX10({center: {x:"10", y:"1"}}).value(), 2);
+      assert.equal(hasWidth10({width: '10'}).value(), 1);
+      assert.equal(hasX10({center: {x:'10', y:'1'}}).value(), 1);
     });
 
     it('must not match', function () {
-      assert.isNull(hasX10({center: {x:"11", y:"1"}}));
+      assert.isNull(hasX10({center: {x:'11', y:'1'}}));
       assert.isNull(hasWidth10({width: 1}));
-      assert.isNull(hasX10({center: {x:"10"}}));
-      assert.isNull(hasX10({center: "1"}));
+      assert.isNull(hasX10({center: {x:'10'}}));
+      assert.isNull(hasX10({center: '1'}));
     });
 
   });
@@ -79,7 +79,7 @@ describe('validator match', function () {
 
     before(function () {
       isAnything = validator();
-      hasWidthbetween5and10 = isAnything.match({width: function (w){
+      hasWidthbetween5and10 = isAnything.match({width: function (w) {
         return w >= 5 && w <=10;
       }});
       isNotANumber = isAnything.match(isNaN);
@@ -87,14 +87,14 @@ describe('validator match', function () {
     });
 
     it('must set score correctly', function () {
-      assert.equal(hasWidthbetween5and10.score(), 2);
+      assert.equal(hasWidthbetween5and10.score(), 1);
     });
 
     it('must match', function () {
-      assert.equal(hasWidthbetween5and10({width: 8}).value(), 2);
+      assert.equal(hasWidthbetween5and10({width: 8}).value(), 1);
 
-      assert.equal(isNotANumber(NaN).value(), 2);
-      assert.equal(isArray([1, 2, 3]).value(), 2);
+      assert.equal(isNotANumber(NaN).value(), 1);
+      assert.equal(isArray([1, 2, 3]).value(), 1);
     });
 
     it('must not match', function () {
@@ -118,24 +118,24 @@ describe('validator match', function () {
     });
 
     it('must set score correctly', function () {
-      assert.equal(hasWidthAndHeight.score(), 2);
+      assert.equal(hasWidthAndHeight.score(), 1);
     });
 
     it('must match', function () {
-      assert.equal(hasWidthAndHeight(['width', 'height']).value(), 2);
+      assert.equal(hasWidthAndHeight(['width', 'height']).value(), 1);
     });
 
     it('must not match', function () {
       assert.isNull(hasWidthAndHeight(['width']));
     });
 
-    it('must match only second item', function (){
-      assert.equal(hasWidthAsSecondField(['xxx', 'width']).value(), 2);
+    it('must match only second item', function () {
+      assert.equal(hasWidthAsSecondField(['xxx', 'width']).value(), 1);
       assert.isNull(hasWidthAsSecondField(['width']));
     });
 
-    it('must match only second item with function', function (){
-      assert.equal(hasSecondNumberOdd(['xxx', 3]).value(), 2);
+    it('must match only second item with function', function () {
+      assert.equal(hasSecondNumberOdd(['xxx', 3]).value(), 1);
       assert.isNull(hasSecondNumberOdd(['xxx', 2]));
     });
 
@@ -150,11 +150,11 @@ describe('validator match', function () {
     });
 
     it('must set score correctly', function () {
-      assert.equal(isNull.score(), 2);
+      assert.equal(isNull.score(), 1);
     });
 
     it('must match', function () {
-      assert.equal(isNull(null).value(), 2);
+      assert.equal(isNull(null).value(), 1);
     });
 
     it('must not match', function () {
@@ -172,13 +172,13 @@ describe('validator match', function () {
     });
 
     it('must set score correctly', function () {
-      assert.equal(isTrue.score(), 2);
-      assert.equal(isFalse.score(), 2);
+      assert.equal(isTrue.score(), 1);
+      assert.equal(isFalse.score(), 1);
     });
 
     it('must match', function () {
-      assert.equal(isTrue(true).value(), 2);
-      assert.equal(isFalse(false).value(), 2);
+      assert.equal(isTrue(true).value(), 1);
+      assert.equal(isFalse(false).value(), 1);
     });
 
     it('must not match', function () {

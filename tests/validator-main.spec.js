@@ -9,11 +9,11 @@ describe('validator main', function () {
   });
 
   it('must be a function', function () {
-    assert.equal(typeof is_hello, "function");
+    assert.equal(typeof is_hello, 'function');
   });
 
   it('must have the right name', function () {
-    assert.equal(is_hello.name, "validator");
+    assert.equal(is_hello.name, 'validator');
   });
 
   it('must be clear that is a validator', function () {

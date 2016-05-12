@@ -35,7 +35,7 @@ describe('validation-result scalar', function () {
   it('must sort correctly', function () {
     items.sort();
     var a = items.map(function (v) {return v.toString();});
-    assert.deepEqual(a, ['B', 'F', 'I', 'J'])
+    assert.deepEqual(a, ['B', 'F', 'I', 'J']);
   });
 });
 
@@ -72,7 +72,7 @@ describe('validation-result array', function () {
   it('must sort correctly', function () {
     items.sort();
     var a = items.map(function (v) {return v.toString();});
-    assert.deepEqual(a, ['BCD', 'H', 'IB', 'IC'])
+    assert.deepEqual(a, ['BCD', 'H', 'IB', 'IC']);
   });
 
   it('must compare by value', function () {

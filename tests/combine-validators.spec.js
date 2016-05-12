@@ -12,7 +12,7 @@ describe('combine-validators', function () {
   });
 
   it('must succeed', function () {
-    assert.deepEqual(v(1, 5, [3, 4]).value(), [1, 2, 3]);
+    assert.deepEqual(v(1, 5, [3, 4]).value(), [0, 1, 2]);
   });
 
   it('must fail if too short', function () {
@@ -20,7 +20,7 @@ describe('combine-validators', function () {
   });
 
   it('must not fail if too long', function () {
-    assert.deepEqual(v(1, 5, [3, 4], 33).value(), [1, 2, 3]);
+    assert.deepEqual(v(1, 5, [3, 4], 33).value(), [0, 1, 2]);
   });
 
   it('must fail if one fails', function () {

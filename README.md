@@ -27,10 +27,10 @@ The score represent how well the object fits (its specificity). For example:
 var isAnything = validator();
 ```
 
-"validator()" creates the simplest validator. It matches everything with score 1:
+"validator()" creates the simplest validator. It matches everything with score 0:
 ```js
-isAnything('hello').value();     // 1
-isAnything({width: 10}).value(); // 1
+isAnything('hello').value();     // 0
+isAnything({width: 10}).value(); // 0
 ```
 You can chain a function to create a more strict validation:
 ```js
@@ -38,9 +38,9 @@ var hasWheels = isAnything.match(function (obj){
     return 'wheels' in obj;
 });
 ```
-So for example, the score of this new validator will be 2:
+So for example, the score of this new validator will be 1:
 ```js
-hasWheels({wheels: 4}).value(); // 2
+hasWheels({wheels: 4}).value(); // 1
 hasWheels({feet: 2});           // returns null
 ```
 You can go on having a more specific validator:
@@ -51,9 +51,9 @@ var hasWheelsAndWings = hasWheels.match(function (obj){
 ```
 Every validator has a function "score" that returns its specificity:
 ```js
-isAnything.score()        // 1
-hasWheels.score()         // 2
-hasWheelsAndWings.score() // 3
+isAnything.score()        // 0
+hasWheels.score()         // 1
+hasWheelsAndWings.score() // 2
 ```
 In order to write validators you can use duck typing, type checking or whatever check you want to use:
 ```js
@@ -142,9 +142,9 @@ var v = combineValidators(isNumber, is5, is8);
 ```
 and then trying to make it match:
 ```js
-v(1, 5, 8).value(); // it will return [2, 3, 3]
+v(1, 5, 8).value(); // it will return [1, 2, 2]
 ```
-If all values match, the validator will return a validationResult with value [2, 3, 3].
+If all values match, the validator will return a validationResult with value [1, 2, 2].
 The elements of the array are the values of the respective validators.
 If one of them doesn't match the result will be null:
 ```js
@@ -178,7 +178,7 @@ Syntax:
 validator();
 ```
 
-Returns a generic validator. It will validate every object with score 1.
+Returns a generic validator. It will validate every object with score 0.
 
 validator().score
 -----------------

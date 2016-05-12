@@ -79,7 +79,7 @@ var shortcut_validators = {
 
 var _validator = function (baseScore, funcs){
   var k;
-  funcs = funcs || [isAnything];
+  funcs = funcs || [];
   var v = function validator(obj){
     var i, score, total = 0;
     for (i = 0; i < funcs.length; i++) {
