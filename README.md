@@ -2,12 +2,7 @@ occamsrazor-validator
 =====================
 [![Build Status](https://travis-ci.org/sithmel/occamsrazor-validator.svg?branch=master)](https://travis-ci.org/sithmel/occamsrazor-validator)
 
-This is a validator library with a very specific goal. Identify if a value matches some criteria using (duck typing)[https://en.wikipedia.org/wiki/Duck_typing] and assigning a score to the match.
-
-Given the goal it is not a full fledged schema validator library. For this reason:
-
-* It identifies what an object "has" rather than what it "is"
-* An object passing the validation returns a "validationResult". This object has a value, based on how many validation steps has passed.
+This is a validator library with a very specific goal. Identifying if a value matches some criteria using (duck typing)[https://en.wikipedia.org/wiki/Duck_typing] and assigning a score to the match.
 
 It is a part of occamsrazor (https://github.com/sithmel/occamsrazor.js) that uses this library for picking the right function for a specific set of arguments.
 
@@ -106,13 +101,13 @@ var recipe_has_nuts = validator().match({recipe: {ingredients: /nuts/}});
 // match if obj.weight is a number bigger than 100
 var is_heavy = validator().match({weight: function (obj){return obj > 100}});
 ```
-There are other 3 helpers available::
+There are other 3 helpers available:
 ```js
 var is_prototype_rect = validator().isPrototypeOf(rect.prototype);
 var is_instance_rect = validator().isInstanceOf(Rect);
 var has_attr = validator().has('width', 'height');
 ```
-If you need a custom validator you can extend the object validator.shortcut_validators::
+If you need a custom validator you can extend the object validator.shortcut_validators:
 ```js
 validator.shortcut_validators.isSquare = function (){
     return function (obj){
@@ -120,7 +115,7 @@ validator.shortcut_validators.isSquare = function (){
     };
 };
 ```
-Of course you can combine all the methods we have seen so far::
+Of course you can combine all the methods we have seen so far:
 ```js
 // this will have a specificity of 4
 var is_instance_a_square = validator()
@@ -131,7 +126,7 @@ var is_instance_a_square = validator()
 
 Combine validators
 ------------------
-You might want to match a group of values. You can do it combine as many validators you want:
+You might want to match a group of values. You can do it combining as many validators you want:
 ```js
 var isNumber = validator().match(function (n) {
   return typeof n === 'number';
@@ -140,7 +135,7 @@ var is5 = isNumber.match(5);
 var is8 = isNumber.match(8);
 var v = combineValidators(isNumber, is5, is8);
 ```
-and then trying to make it match:
+and then test if it matches:
 ```js
 v(1, 5, 8).value(); // it will return [1, 2, 2]
 ```
@@ -159,7 +154,7 @@ When the value returned is an array it is compared in this way (alphabetically):
 
 Sort and compare results
 ------------------------
-The result validator object has an useful property. It can be sorted and compared (greater than, lesser than) as it was a basic js type. You can use the output of the toString attribute to compare for equality:
+The resulting validator object has an useful property. It can be sorted and compared (greater than, lesser than) just like a basic js value. You can use the output of the toString attribute to compare for equality:
 ```js
 r0 > r1
 var results = [r0, r1, r2, r3];
@@ -231,7 +226,7 @@ var validator = validator().match([items]);
 var validator = validator().match({propName1: "string", propName2: {propName3: "string"}});
 ```
 The last two forms allow to perform the validation check recursively, walking the properties of the object/array.
-In a property is undefined the value will match any value.
+If a property is undefined the value will match any value.
 
 For example:
 ```js
