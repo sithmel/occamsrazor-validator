@@ -1,20 +1,6 @@
 var combineValidators = require('./lib/combine-validators');
 var ValidationResult = require('./lib/validation-result');
-var match = require('./lib/match');
-var has = require('./lib/has');
-var isPrototypeOf = require('./lib/isPrototypeOf');
-var isInstanceOf = require('./lib/isInstanceOf');
-
-var isAnything = function (obj) {
-  return true;
-};
-
-var shortcut_validators = {
-  match: match,
-  has: has,
-  isPrototypeOf: isPrototypeOf,
-  isInstanceOf: isInstanceOf
-};
+var match = require('occamsrazor-match');
 
 var _validator = function (baseScore, funcs) {
   var k;
@@ -31,8 +17,8 @@ var _validator = function (baseScore, funcs) {
     return new ValidationResult(total + baseScore, obj);
   };
 
-  v.chain = function (func) {
-    return _validator(baseScore, funcs.concat(func));
+  v.match = function (func) {
+    return _validator(baseScore, funcs.concat(match(func)));
   };
 
   v.score = function () {
@@ -44,15 +30,13 @@ var _validator = function (baseScore, funcs) {
     return _validator(baseScore + bump, funcs);
   };
 
-  // shortcut validators
-  for (k in shortcut_validators) {
-    v[k] = (function (f) {
-      return function () {
-        var args = Array.prototype.slice.call(arguments);
-        return v.chain(f.apply(null, args));
-      };
-    }(shortcut_validators[k]));
-  }
+  v.functions = function () {
+    return funcs;
+  };
+
+  v.functionNames = function () {
+    return funcs.map(function (func) { return func.name; });
+  };
 
   return v;
 };
@@ -62,7 +46,7 @@ var validator = function () {
   return _validator(0);
 };
 
-validator.shortcut_validators = shortcut_validators;
+// validator.shortcut_validators = shortcut_validators;
 validator.combine = combineValidators;
 
 module.exports = validator;

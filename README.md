@@ -101,28 +101,7 @@ var recipe_has_nuts = validator().match({recipe: {ingredients: /nuts/}});
 // match if obj.weight is a number bigger than 100
 var is_heavy = validator().match({weight: function (obj){return obj > 100}});
 ```
-There are other 3 helpers available:
-```js
-var is_prototype_rect = validator().isPrototypeOf(rect.prototype);
-var is_instance_rect = validator().isInstanceOf(Rect);
-var has_attr = validator().has('width', 'height');
-```
-If you need a custom validator you can extend the object validator.shortcut_validators:
-```js
-validator.shortcut_validators.isSquare = function (){
-    return function (obj){
-        return 'width' in obj && 'height' in obj && obj.width === obj.height;
-    };
-};
-```
-Of course you can combine all the methods we have seen so far:
-```js
-// this will have a specificity of 4
-var is_instance_a_square = validator()
-    .isInstanceOf(Rect)
-    .has('width', 'height')
-    .isSquare();
-```
+You can find a lot of documentation and more "ready to use" validators in the [occamsrazor-match](https://github.com/sithmel/occamsrazor-match)
 
 Combine validators
 ------------------
@@ -241,35 +220,3 @@ var hasCenter5or10 = validator().match({center: {x : function (c){
 }}});
 // will match {center: {x: "5"}} or {center: {x: "10"}}
 ```
-
-validator().isPrototypeOf
--------------------------
-Check if an object is a prototype of another.
-
-Syntax:
-```js
-var validator = validator().isPrototypeOf(obj);
-```
-
-validator().instanceOf
-----------------------
-Check if an object is an instance of a constructor.
-
-Syntax:
-```js
-var validator = validator().instanceOf(ContructorFunc);
-```
-
-validator().has
----------------
-Check if an object has attributes with a specific names.
-
-Syntax:
-```js
-var validator = validator().has(attr1, attr2, ...);
-```
-
-validator.shortcut_validators
--------------------------------
-It is an object where you can add your shortcut validators.
-"match" and "isPrototypeOf" are added here but you can add your own if you need.

@@ -9,15 +9,15 @@ describe('validator score', function () {
 
     is_anything = validator();
 
-    is_instrument = validator().chain(function (obj) {
+    is_instrument = validator().match(function (obj) {
       return 'instrument_name' in obj;
     });
 
-    is_guitar = is_instrument.chain( function (obj) {
+    is_guitar = is_instrument.match( function (obj) {
       return 'nStrings' in obj;
     });
 
-    is_electricguitar = is_guitar.chain(function (obj) {
+    is_electricguitar = is_guitar.match(function (obj) {
       return 'ampli' in obj;
     });
 

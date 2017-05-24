@@ -16,6 +16,11 @@ describe('validator main', function () {
     assert.equal(is_hello.name, 'validator');
   });
 
+  it('must store function names', function () {
+    assert.deepEqual(validator().functionNames(), []);
+    assert.deepEqual(is_hello.functionNames(), ['isString:hello']);
+  });
+
   it('must be clear that is a validator', function () {
     assert(typeof is_hello === 'function' && 'score' in is_hello);
   });
