@@ -26,4 +26,9 @@ describe('combine-validators', function () {
   it('must fail if one fails', function () {
     assert.isNull(v(1, 3, [3, 4]));
   });
+
+  it('must return names', function () {
+    assert.equal(v.name, 'isAnything, isNumber:5, and(isArray object:{length:isNumber:2})');
+  });
+
 });
