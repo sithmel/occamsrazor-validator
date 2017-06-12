@@ -112,17 +112,17 @@ var isNumber = validator().match(function (n) {
 });
 var is5 = isNumber.match(5);
 var is8 = isNumber.match(8);
-var v = combineValidators(isNumber, is5, is8);
+var v = combineValidators([isNumber, is5, is8]);
 ```
 and then test if it matches:
 ```js
-v(1, 5, 8).value(); // it will return [1, 2, 2]
+v([1, 5, 8]).value(); // it will return [1, 2, 2]
 ```
 If all values match, the validator will return a validationResult with value [1, 2, 2].
 The elements of the array are the values of the respective validators.
 If one of them doesn't match the result will be null:
 ```js
-v(1, 5, 5); // it will return null
+v([1, 5, 5]); // it will return null
 ```
 When the value returned is an array it is compared in this way (alphabetically):
 ```js
@@ -139,6 +139,31 @@ r0 > r1
 var results = [r0, r1, r2, r3];
 r.sort();
 r0.toString() === r1.toString()
+```
+
+Adding a callback for debugging
+===============================
+If you need to inspect the state of the validation, you can add a callback to a validator or combined validator:
+```js
+var has_width_and_height_10 = validator().match({width: 10, height: 10});
+has_width_and_height_10({width: 10, height: 10}, function debug (o) {
+  // "o" contains:
+  // name: 'the validator name',
+  // path: if the validation is applied to an object, the path of the current validation
+  // result: true or false,
+  // value: the value used for the validation,
+});
+```
+```js
+var v = combineValidators([isNumber, is5, is8]);
+v([1, 8], function debug (o) {
+  // "o" contains:
+  // validatorName: the name of the combination of these validators
+  // name: 'the validator name',
+  // path: if the validation is applied to an object, the path of the current validation
+  // result: true or false,
+  // value: the value used for the validation,
+});
 ```
 
 Syntax

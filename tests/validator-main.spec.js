@@ -13,8 +13,23 @@ describe('validator main', function () {
   });
 
   it('must store function names', function () {
-    assert.deepEqual(validator().name, 'isAnything');
-    assert.deepEqual(is_hello.name, 'isString:hello');
+    assert.deepEqual(validator().name, 'isAnything (score: 0)');
+    assert.deepEqual(is_hello.name, 'isString:hello (score: 1)');
+  });
+
+  it('must log', function () {
+    var out = [];
+    is_hello('hi', function (o) {
+      out.push(o);
+    });
+    assert.deepEqual(out, [
+      {
+        name: 'isString:hello',
+        path: '',
+        result: false,
+        value: 'hi',
+      }
+    ]);
   });
 
   it('must be clear that is a validator', function () {

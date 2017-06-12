@@ -9,19 +9,19 @@ function buildValidator(baseScore, funcs) {
   funcs = funcs || [];
   var innerValidator = and(funcs);
 
-  function validator(obj) {
-    if (innerValidator(obj)) {
+  function validator(obj, callback) {
+    if (innerValidator(obj, callback)) {
       return new ValidationResult(funcs.length + baseScore, obj);
     }
     return null;
   };
 
-  validator.match = function (func) {
-    return buildValidator(baseScore, funcs.concat(match(func)));
-  };
-
   validator.score = function () {
     return funcs.length + baseScore;
+  };
+
+  validator.match = function (func) {
+    return buildValidator(baseScore, funcs.concat(match(func)));
   };
 
   validator.important = function (bump) {
@@ -29,7 +29,7 @@ function buildValidator(baseScore, funcs) {
     return buildValidator(baseScore + bump, funcs);
   };
 
-  setName(validator, innerValidator.name);
+  setName(validator, innerValidator.name + ' (score: ' + validator.score() + ')');
 
   return validator;
 }
