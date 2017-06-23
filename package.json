@@ -31,6 +31,6 @@
     "npm-release": "^1.0.0"
   },
   "dependencies": {
-    "occamsrazor-match": "^2.1.1"
+    "occamsrazor-match": "^2.2.1"
   }
 }

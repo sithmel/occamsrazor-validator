@@ -2,7 +2,8 @@ var match = require('occamsrazor-match');
 var and = require('occamsrazor-match/extra/and');
 var combineValidators = require('./lib/combine-validators');
 var ValidationResult = require('./lib/validation-result');
-var setName = require('./lib/setName');
+var setName = require('occamsrazor-match/lib/setName');
+
 
 function buildValidator(baseScore, funcs) {
   baseScore = baseScore || 0;
@@ -29,9 +30,7 @@ function buildValidator(baseScore, funcs) {
     return buildValidator(baseScore + bump, funcs);
   };
 
-  setName(validator, innerValidator.name + ' (score: ' + validator.score() + ')');
-
-  return validator;
+  return setName(validator, innerValidator.name + ' (score: ' + validator.score() + ')');
 }
 
 buildValidator.combine = combineValidators;
