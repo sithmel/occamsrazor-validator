@@ -1,6 +1,6 @@
 {
   "name": "occamsrazor-validator",
-  "version": "8.0.1",
+  "version": "9.0.0",
   "description": "A duck-typing library",
   "main": "index.js",
   "scripts": {
