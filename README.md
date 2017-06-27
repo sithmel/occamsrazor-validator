@@ -90,10 +90,11 @@ var has_1_2 = validator().match([1, 2]);
 Finally you can perform deep property checking using an object and combining the previous checks:
 ```js
 // match with width and height equal to 10
-var has_width_and_height_10 = validator().match({width: 10, height: 10});
+var has_width_and_height_10 = validator().match({ width: 10, height: 10 });
 
 // match with a center attribute with x and y subattributes
-var has_center = validator().match({center: {x: undefined, y: undefined}});
+var isNumber = require('occamsrazor-match/extra/isNumber'); // you can find many helpers in this library
+var has_center = validator().match({ center: { x: isNumber, y: isNumber } });
 
 // match if obj.recipe.ingredients is a string and match with /nuts/
 var recipe_has_nuts = validator().match({recipe: {ingredients: /nuts/}});
@@ -146,11 +147,10 @@ Adding a callback for debugging
 If you need to inspect the state of the validation, you can add a callback to a validator or combined validator:
 ```js
 var has_width_and_height_10 = validator().match({width: 10, height: 10});
-has_width_and_height_10({width: 10, height: 10}, function debug (o) {
+has_width_and_height_10({width: 10, height: 10}, function onError (o) {
   // "o" contains:
   // name: 'the validator name',
   // path: if the validation is applied to an object, the path of the current validation
-  // result: true or false,
   // value: the value used for the validation,
 });
 ```
@@ -161,7 +161,6 @@ v([1, 8], function debug (o) {
   // validatorName: the name of the combination of these validators
   // name: 'the validator name',
   // path: if the validation is applied to an object, the path of the current validation
-  // result: true or false,
   // value: the value used for the validation,
 });
 ```
@@ -234,11 +233,12 @@ If a property is undefined the value will match any value.
 
 For example:
 ```js
-var hasCenterX = validator().match({center: {x: undefined}});
-// will match {center: {x: "10"}}
+var hasCenterX = validator()
+  .match({ center: { x: /[0-9]+/ } });
+// will match { center: {x: "10"} }
 
 var hasCenterX10 = validator().match({center: {x: "10"}});
-// will match {center: {x: "10"}} but not {center: {x: "11"}}
+// will match {center: { x: "10" } } but not {center: { x: "11" } }
 
 var hasCenter5or10 = validator().match({center: {x : function (c){
   return c === "5" || c === "10";

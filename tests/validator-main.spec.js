@@ -26,7 +26,6 @@ describe('validator main', function () {
       {
         name: 'isString:hello',
         path: '',
-        result: false,
         value: 'hi',
       }
     ]);

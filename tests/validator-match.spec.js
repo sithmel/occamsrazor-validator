@@ -1,5 +1,6 @@
 var assert = require('chai').assert;
 var validator = require('..');
+var isDefined = require('occamsrazor-match/extra/isDefined');
 
 describe('validator match', function () {
 
@@ -50,7 +51,7 @@ describe('validator match', function () {
       hasWidth10 = isAnything.match({'width': '10'});
       hasX10 = isAnything.match({
         center: {
-          x: '10', y: undefined
+          x: '10', y: isDefined
         }
       });
     });
